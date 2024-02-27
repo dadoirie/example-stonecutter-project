@@ -1,0 +1,30 @@
+{
+	"schemaVersion": 1,
+	"id": "example_sc_mod",
+	"version": "${version}",
+	"name": "Example Stonecutter Project",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC BY-NC-SA 4.0",
+	"icon": "assets/example_sc_mod/icon.png",
+	"environment": "client",
+	"entrypoints": {
+    "client": [
+      {
+        "value": "net.example.example_sc_mod.ExampleMod"
+      }
+    ]
+	},
+	"depends": {
+    "fabricloader": "${loader_version}",
+    "minecraft": "${minecraft_version}",
+    "java": ">=17",
+    "fabric-api": "${fabric_version}"
+	}
+}

@@ -1,0 +1,21 @@
+pluginManagement {
+	repositories {
+		maven {
+			name = 'Fabric'
+			url = 'https://maven.fabricmc.net/'
+		}
+    mavenLocal() 
+		mavenCentral()
+		gradlePluginPortal()
+	}
+}
+
+plugins {
+    id 'io.shcm.shsupercm.fabric.stonecutter' version '1.5'
+}
+
+include ":${archives_base_name}"
+// Assuming stonecutter is a custom method or plugin applied in settings.gradle
+stonecutter.create(project(":${archives_base_name}")) {
+    versions '1.20.1', '1.20.2'
+}

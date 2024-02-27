@@ -1,0 +1,94 @@
+plugins {
+	id 'fabric-loom' version '1.5-SNAPSHOT'
+	id 'maven-publish'
+}
+
+version = project.mod_version + "+${project.minecraft_version}"
+group = project.maven_group
+
+
+base {
+  archivesName = project.archives_base_name
+}
+
+repositories {
+  mavenCentral()
+  maven {
+    name = 'Fabric'
+    url = 'https://maven.fabricmc.net/'
+  }
+  exclusiveContent {
+    forRepository {
+      maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+      }
+    }
+    filter {
+      includeGroup "maven.modrinth"
+    }
+    maven {
+      name = 'SpongePowered'
+      url = 'https://repo.spongepowered.org/maven/'
+    }
+    maven {
+      url "https://cursemaven.com"
+      content {
+        includeGroup "curse.maven"
+      }
+    }
+  }
+}
+
+dependencies {
+  // Hard Dependencies
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+  modImplementation "org.spongepowered:mixin:0.8.6-SNAPSHOT"
+}
+
+processResources {
+    inputs.property("version", project.version)
+
+    // Directly define the versions to be used for expansion inside the closure
+    filesMatching("fabric.mod.json") {
+        // Define a local map for the versions, making it clear and avoiding confusion
+        def versionsMap = [
+            version: project.version,
+            loader_version: project.loader_version,
+            // Use a ternary operator to decide the format of the Minecraft version
+            minecraft_version: project.minecraft_version == "1.20.1" ? project.minecraft_version : ">=${project.minecraft_version}",
+            // Extract the numeric part of the fabric_version before the "+" sign
+            fabric_version: project.fabric_version.split("\\+")[0]
+        ]
+
+        // Use the expand method with the versionsMap
+        expand(versionsMap)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+  it.options.release = 17
+}
+
+java {
+  withSourcesJar()
+  sourceCompatibility = JavaVersion.VERSION_17
+  targetCompatibility = JavaVersion.VERSION_17
+}
+
+jar {
+  from("LICENSE") {
+    rename { "${it}_${project.base.archivesName.get()}"}
+  }
+}
+
+/* publishing {
+  publications {
+    mavenJava(MavenPublication) {
+      from components.java
+    }
+  }
+} */
