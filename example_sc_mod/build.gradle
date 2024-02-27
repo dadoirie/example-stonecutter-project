@@ -13,30 +13,24 @@ base {
 
 repositories {
   mavenCentral()
+
   maven {
     name = 'Fabric'
     url = 'https://maven.fabricmc.net/'
   }
-  exclusiveContent {
-    forRepository {
-      maven {
-        name = "Modrinth"
-        url = "https://api.modrinth.com/maven"
-      }
-    }
-    filter {
-      includeGroup "maven.modrinth"
-    }
-    maven {
-      name = 'SpongePowered'
-      url = 'https://repo.spongepowered.org/maven/'
-    }
-    maven {
-      url "https://cursemaven.com"
-      content {
-        includeGroup "curse.maven"
-      }
-    }
+
+  maven {
+    name = "Modrinth"
+    url = "https://api.modrinth.com/maven"
+  }
+
+  maven {
+    name = 'SpongePowered'
+    url = 'https://repo.spongepowered.org/maven/'
+  }
+
+  maven {
+    url "https://cursemaven.com"
   }
 }
 
